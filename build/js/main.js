@@ -141,3 +141,16 @@ let numberOrString = (value) => {
     return showError('this cant happen!');
 };
 console.log(numberOrString(4));
+//Type Assertions/typecasting
+let addOrConcat = (num1, num2, method) => {
+    return method === 'add' ? num1 + num2 : '' + num1 + num2;
+};
+//we're basically telling the ts that we know its gonna be a string
+let myval = addOrConcat(5, 4, 'concat');
+console.log(myval);
+//be aware of your assertions you can make mistakes too just like the following code
+let nextval = addOrConcat(5, 4, 'concat');
+console.log(typeof nextval);
+//unknown type
+10;
+10;

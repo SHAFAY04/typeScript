@@ -179,4 +179,20 @@ let numberOrString = (value:number|string):string=> {
 }
 console.log(numberOrString(4))
 
+//Type Assertions/typecasting
+
+let addOrConcat=(num1:number,num2:number,method:'add'|'concat'):string|number=>{
+
+    return method==='add'?num1+num2:''+num1+num2
+}
+//we're basically telling the ts that we know its gonna be a string
+let myval:string = addOrConcat(5,4,'concat')as string
+console.log(myval)
+//be aware of your assertions you can make mistakes too just like the following code
+let nextval:number= addOrConcat(5,4,'concat')as number
+console.log(typeof nextval)
+
+//unknown type
+10 as string
+(10 as unknown)as string
 
