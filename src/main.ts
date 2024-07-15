@@ -18,7 +18,7 @@ isActive=true
 let sum=(a:number,b:string)=>{
 return a+b
 }
-console.log(sum(5,'hello'))
+console.log(sum(5,'coder'))
 
 let fruits=['apple','mango']
 let user=['shafay',5960]
@@ -76,7 +76,7 @@ let anotherCar=(newCar:{
     model:number,
     variant:string
 })=>{
-        console.log(`Hello ${newCar.variant}`)
+        console.log(`coder ${newCar.variant}`)
     }
 anotherCar(goodCar)
 
@@ -196,3 +196,121 @@ console.log(typeof nextval)
 10 as string
 (10 as unknown)as string
 
+//Classes and Interfaces
+interface devWork{
+    devgit:string,
+    code(lang:string):string,
+    test(status:string):string
+}
+
+class person{
+
+    //you dont have to declare the variables in the class first like you used to do in java
+    //you can just directly initialize them in the constructor by using access modifiers
+    constructor(
+        public name:string,
+        private age:string|number,
+        protected isVirgin:boolean=true
+    ){
+        this.name=name
+        this.age=age
+        this.isVirgin=isVirgin
+    }
+    public getage(){
+        return this.age
+    }
+}
+let shafayy= new person('shafay','19')
+console.log(shafayy.getage())
+console.log(shafayy.age)
+console.log(shafayy.isVirgin)
+
+class coder extends person implements devWork{
+
+    devgit:string
+
+    constructor(
+        public role:string,
+        public company:string,    
+        private pay: stringOrNum,
+        name:string,
+        age:stringOrNum,
+        devgit:string
+        
+    )
+    {
+        super(name,age)
+        this.role=role
+        this.company=company
+        this.pay=pay
+        this.devgit=devgit
+    }
+    code(lang: string): string {
+      return `hi i'm coding in ${lang} these days!`
+    }
+    test(status: string): string {
+        return `hi i tested my code and it seems ${status}`
+    }
+   
+    public getVirginity(){
+        return this.isVirgin
+    }
+}
+let shafayCoder= new coder('lead','10Pearls','150K','Shafay',19,'https://github.com/SHAFAY04')
+console.log(`Hi its ${shafayCoder.getVirginity()}`)
+console.log(`Hi i'm ${shafayCoder.getage()}`)
+console.log(shafayCoder.age)
+console.log(shafayCoder.isVirgin)
+console.log(shafayCoder.code('typeScript'))
+
+class employee{
+    name:string
+    //a static variable belongs to the class rather than the instance of a class
+    //we use these to have better memory allocation
+    static count:number=0
+    id:number
+    constructor(name:string){
+        this.name=name;
+        this.id=++employee.count
+    }
+}
+let john= new employee('John')
+let alyssa= new employee('Alyssa Baker')
+console.log(john.id)
+console.log(alyssa.id)
+
+//get and set builtin functions and how they're different from normal functions
+class park{
+
+    private rides:string[]
+
+    constructor(){
+        this.rides=[]
+    }
+
+    public get getride():string[]{
+        return this.rides
+    }
+
+    public set setride(value:string[]){
+        if (Array.isArray(value) && value.every(elem=>
+            typeof elem === "string")) {
+                this.rides=value
+                return
+        } else {
+            throw new Error('Array of strings required!')
+        }
+        
+    }
+}
+
+let askari = new park()
+let stringarr=['jumpy','idkweird','monkeyking']
+let wrongarr=['jumpy',true,154]
+//note that you dont do askari.setride(stringarr)
+askari.setride=stringarr
+//note that you dont do askari.getride()
+console.log(askari.getride)
+//spreading the array
+askari.setride=[...stringarr,'Bunjee Jumping']
+console.log(askari.getride)
