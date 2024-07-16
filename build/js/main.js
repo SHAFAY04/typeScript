@@ -241,3 +241,58 @@ console.log(askari.getride);
 //spreading the array
 askari.setride = [...stringarr, 'Bunjee Jumping'];
 console.log(askari.getride);
+let todaySales = {
+    pizza: 15,
+    roll: 23,
+    salad: 5
+};
+//this function takes in an object
+let todaysNet = (todayItems) => {
+    let total = 0;
+    for (const item in todayItems) {
+        //if you had not declared the index signature there would be an error in the following line
+        total = total + todayItems[item];
+    }
+    return total;
+};
+let property = 'pizza';
+console.log(todaySales['pizza']);
+//if you had not declared the index signature there would be an error in the following line
+console.log(todaySales[property]);
+console.log(todaysNet(todaySales));
+//read only
+todaySales.pizza = 40;
+let ahmed = {
+    name: 'ahmed',
+    age: 19,
+    subjects: ['physics', 'maths']
+};
+let prop = 'ahmed';
+console.log(ahmed[prop]);
+for (const key in ahmed) {
+    //no key signature error will display here
+    console.log(`${key}: ${ahmed[key]}`);
+}
+//now how to iterate through an object literal
+//that does not have an index signature
+for (const key in ahmed) {
+    //we used assertion
+    console.log(`${key}: ${ahmed[key]}`);
+}
+Object.keys(ahmed).map(key => {
+    console.log(ahmed[key]);
+});
+let logStudentKeys = (ahmed, key) => {
+    console.log(`Student ${key}:${ahmed[key]}`);
+};
+logStudentKeys(ahmed, 'name');
+let lazyriver = {
+    //anything is an unknown type
+    anything: 15,
+    height: 15,
+    color: 'blue'
+};
+for (const key in lazyriver) {
+    //you still need assertion to access keys
+    console.log(`${key}: ${lazyriver[key]}`);
+}

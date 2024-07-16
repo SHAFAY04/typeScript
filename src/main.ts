@@ -314,3 +314,91 @@ console.log(askari.getride)
 //spreading the array
 askari.setride=[...stringarr,'Bunjee Jumping']
 console.log(askari.getride)
+
+//Index Signatures
+interface shopItems{
+    //telling that the index can be a string not just a number
+   readonly [index:string]:number
+   //pizza cant be a string cuz of the index signature
+   readonly pizza:number,
+   roll:number,
+   salad:number
+}
+let todaySales:shopItems={
+    pizza:15,
+    roll:23,
+    salad:5
+}
+//this function takes in an object
+let todaysNet=(todayItems:shopItems):number=>{
+    let total:number=0
+    for (const item in todayItems) {
+        //if you had not declared the index signature there would be an error in the following line
+       total=total+todayItems[item]
+    }
+    return total
+}
+let property:string='pizza'
+console.log(todaySales['pizza'])
+//if you had not declared the index signature there would be an error in the following line
+console.log(todaySales[property])
+console.log(todaysNet(todaySales))
+//read only
+todaySales.pizza=40
+
+interface student{
+    // [index:string]:string|number|string[]|undefined
+    name:string
+    age:number
+    subjects?:string[]
+}
+let ahmed:student={
+    name:'ahmed',
+    age:19,
+    subjects:['physics','maths']
+}
+let prop= 'ahmed'
+console.log(ahmed[prop])
+
+for(const key in ahmed){
+    //no key signature error will display here
+    console.log(`${key}: ${ahmed[key]}`)
+}
+//now how to iterate through an object literal
+//that does not have an index signature
+for(const key in ahmed){
+    //we used assertion
+    console.log(`${key}: ${ahmed[key as keyof student]}`)
+}
+Object.keys(ahmed).map(key =>{
+    console.log(ahmed[key as keyof typeof ahmed])
+})
+let logStudentKeys = (ahmed:student, key: keyof student):void=>{
+    console.log(`Student ${key}:${ahmed[key]}`)
+}
+logStudentKeys(ahmed,'name')
+
+type poools={
+    //look we cant use a string literal directly!
+    [key:'height']:string
+}
+type Streams= 'height'|'color'|'deaths'
+
+//advantage as compared to the poools type
+//we can use string literal types likes this
+//drawback that we cant fix a type for a single 
+//string literal like we could in the poools type
+//height can be just a number or a string
+//so if we specify below thats gonna apply to all
+type pools = Record<Streams,string|number>
+
+let lazyriver:pools={
+    //anything is an unknown type
+    anything:15,
+    height:15,
+    color:'blue'
+}
+for (const key in lazyriver) {
+    //you still need assertion to access keys
+    console.log(`${key}: ${lazyriver[key]}`)
+}
