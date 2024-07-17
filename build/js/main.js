@@ -296,3 +296,82 @@ for (const key in lazyriver) {
     //you still need assertion to access keys
     console.log(`${key}: ${lazyriver[key]}`);
 }
+//Generics
+//we use them when we are unsure about the type
+let echo = (arg) => arg;
+let isObj = (arg) => {
+    return (typeof arg === 'object' && !Array.isArray(arg) && arg !== null);
+};
+console.log(isObj(true));
+console.log(isObj('helo'));
+console.log(isObj([123, 455]));
+console.log(isObj(lazyriver));
+const isSomething = (arg) => {
+    //checking if its array
+    if (Array.isArray(arg) && !arg.length) {
+        return { arg, is: false };
+    }
+    //checking if its object
+    if (isObj(arg) && !Object.keys(arg).length) {
+        return { arg, is: false };
+    }
+    return { arg, is: !!arg };
+};
+let emptyobj = {};
+console.log(isSomething(true));
+console.log(isSomething('helo'));
+console.log(isSomething([123, 455]));
+console.log(isSomething([]));
+console.log(isSomething(lazyriver));
+console.log(isSomething(emptyobj));
+let processUser = (user) => {
+    return user;
+};
+console.log(processUser({ id: 5, name: 'shafay' }));
+//if you dont provide id it'll display an error
+console.log(processUser({}));
+//more advanced example of extends in generics
+let getUser = (users, key) => {
+    return users.map(user => user[key]);
+};
+let userArray = [
+    {
+        name: 'shafay',
+        id: 221098,
+        lang: 'ts'
+    },
+    {
+        name: 'shaeel',
+        id: 221083,
+        lang: ':html',
+        interest: 'cricket'
+    }
+];
+console.log(getUser(userArray, "id"));
+class genericClass {
+    constructor(data) {
+        this.data = data;
+    }
+    get getdata() {
+        return this.data;
+    }
+    set setdata(value) {
+        this.data = value;
+    }
+}
+let genObj = new genericClass('shafay');
+console.log(genObj.getdata);
+//look following error while using generics in a class
+//when creating the object of the class you will
+//have to specify the types that the object can be
+//because when i first assigned 'shafay' which is
+//a string the typescript assumed that there can
+//only be strings passed in the class so you have
+//to specify while creating objects as well
+genObj.setdata = 46;
+//this time i will specify the types
+let newGenObj = new genericClass(45);
+console.log(newGenObj.getdata);
+//see we get no error this time
+newGenObj.setdata = 'look a string';
+console.log(newGenObj.getdata);
