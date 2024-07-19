@@ -287,7 +287,8 @@ let logStudentKeys = (ahmed, key) => {
 };
 logStudentKeys(ahmed, 'name');
 let lazyriver = {
-    //anything is an unknown type
+    //anything is an unknown type as streams
+    //doesnt include anything key
     anything: 15,
     height: 15,
     color: 'blue'
@@ -375,3 +376,70 @@ console.log(newGenObj.getdata);
 //see we get no error this time
 newGenObj.setdata = 'look a string';
 console.log(newGenObj.getdata);
+//UTILITY TYPES
+console.log('//UTILITY TYPES');
+//this partial type allows us to pass in an object
+//that just has one property
+let updateAssignment = (assign, PropsToUpdate) => {
+    return Object.assign(Object.assign({}, assign), PropsToUpdate);
+};
+const assign1 = {
+    studentName: 'shafay',
+    title: 'DSA',
+    grade: 'A+'
+};
+console.log(updateAssignment(assign1, { grade: 'A' }));
+console.log(assign1);
+let gradedAssignment = updateAssignment(assign1, { grade: 'FULL' });
+console.log(gradedAssignment);
+//Required type
+let requiredVerification = Object.assign({}, assign1);
+let providedVerification = Object.assign(Object.assign({}, assign1), { verified: false });
+//Readonly type
+let assignVerified = Object.assign({}, gradedAssignment);
+assignVerified.grade = 'C';
+//Record Type (MOST USED)
+let color = {
+    //look the blue key is string but its value
+    //is a number which can't be a num as specified
+    blue: 45,
+};
+let studentGrades = {
+    shafay: 'A+',
+    sarah: 'A+',
+    brandon: 'C',
+    dave: 'B',
+    paul: 'A',
+    samantha: 'B'
+};
+let gradeData = {
+    sarah: { assignment1: 9, assignment2: 4 },
+    brandon: { assignment1: 2, assignment2: 3 },
+    dave: { assignment1: 5, assignment2: 3 },
+    samantha: { assignment1: 7, assignment2: 6 },
+    shafay: { assignment1: 9, assignment2: 10 },
+    paul: { assignment1: 10, assignment2: 7 }
+};
+let score = {
+    studentName: "goodie",
+    grade: "A+"
+};
+let georgeAssignment = {
+    studentName: "George",
+    title: 'Database Structure Diagrams'
+};
+let nameString = {
+    name: 43
+};
+let nameString2 = 78;
+//Return Type
+let addUtilityfunc = (lib, jar) => {
+    return { lib, jar };
+};
+const addUtility = addUtilityfunc("Java.Sql", "JavaSqlConnector.jar");
+console.log(addUtility);
+const utilityArgs = ["Java maths", "JavaMaths22.jar"];
+const addUtility2 = addUtilityfunc(...utilityArgs);
+console.log(addUtility2);
+//Awaited
+//helps us with return type of a promise

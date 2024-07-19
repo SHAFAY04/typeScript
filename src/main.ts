@@ -385,15 +385,16 @@ type poools={
 type Streams= 'height'|'color'|'deaths'
 
 //advantage as compared to the poools type
-//we can use string literal types likes this
+//we can use string types likes this
 //drawback that we cant fix a type for a single 
-//string literal like we could in the poools type
+//string type like we could in the poools type
 //height can be just a number or a string
 //so if we specify below thats gonna apply to all
 type pools = Record<Streams,string|number>
 
 let lazyriver:pools={
-    //anything is an unknown type
+    //anything is an unknown type as streams
+    //doesnt include anything key
     anything:15,
     height:15,
     color:'blue'
@@ -494,3 +495,137 @@ console.log(newGenObj.getdata)
 //see we get no error this time
 newGenObj.setdata='look a string'
 console.log(newGenObj.getdata)
+
+//UTILITY TYPES
+console.log('//UTILITY TYPES')
+interface assignment{
+    studentName:string,
+    title:string,
+    grade:string,
+    verified?:boolean
+}
+//this partial type allows us to pass in an object
+//that just has one property
+let updateAssignment=(assign:assignment,PropsToUpdate:Partial<assignment>):assignment=>{
+    return {...assign,...PropsToUpdate}
+}
+const assign1:assignment={
+    studentName:'shafay',
+    title:'DSA',
+    grade:'A+'
+}
+console.log(updateAssignment(assign1,{grade:'A'}))
+console.log(assign1)
+
+let gradedAssignment:assignment=updateAssignment(assign1,{grade:'FULL'})
+console.log(gradedAssignment)
+
+//Required type
+let requiredVerification:Required<assignment>={
+
+//look the required type is asking for verified
+//key of the interface assignment to be included,
+//even tho verified is optional
+    ...assign1
+}
+let providedVerification:Required<assignment>={
+
+    //so i here provide the required verification key
+
+        ...assign1,
+        verified:false
+    }
+
+//Readonly type
+let assignVerified:Readonly<assignment> ={
+
+    ...gradedAssignment
+}
+assignVerified.grade='C'
+
+//Record Type (MOST USED)
+let color:Record<string,string>={
+
+    //look the blue key is string but its value
+    //is a number which can't be a num as specified
+    blue:45,
+}
+
+type gradeKeys= 'A'|'A+'|'B'|'C'
+type students='sarah'|'brandon'|'dave'|'samantha'|'shafay'|'paul'
+let studentGrades:Record<students,gradeKeys>={
+    shafay:'A+',
+    sarah:'A+',
+    brandon:'C',
+    dave:'B',
+    paul:'A',
+    samantha:'B'
+}
+
+interface grades{
+    assignment1:number,
+    assignment2:number
+}
+let gradeData:Record<students,grades>={
+    sarah: {assignment1:9,assignment2:4},
+    brandon: {assignment1:2,assignment2:3},
+    dave: {assignment1:5,assignment2:3},
+    samantha: {assignment1:7,assignment2:6},
+    shafay: {assignment1:9,assignment2:10},
+    paul: {assignment1:10,assignment2:7}
+}
+
+//Pick type
+//allows you to pick and use some properties from
+//an object and converts them into a type
+type assignResult=Pick<assignment,"studentName"|"grade">
+
+let score:assignResult={
+    studentName:"goodie",
+    grade:"A+"
+}
+
+//Omit Type
+//allows you to omit a property from an object
+type previewAssignmentNoGrade=Omit<assignment,"grade"|"verified">
+let georgeAssignment:previewAssignmentNoGrade={
+
+    studentName:"George",
+    title:'Database Structure Diagrams'
+    
+}
+
+//Extract type extracts some keys from an already
+//existing type or object
+type selectedStudents=Extract<students,"dave"|"paul">
+
+//Exclude type excludes some keys from an already
+//existing type or object
+type excludedStudents=Exclude<students,"dave"|"paul">
+
+type newtype= string|null|undefined
+type notNull=NonNullable<newtype>
+let nameString:{name:notNull}={
+    name:43
+}
+let nameString2:notNull=78
+
+//Return Type
+let addUtilityfunc=(lib:string,jar:string)=>{
+    return {lib,jar}
+}
+type newUtility=ReturnType<typeof addUtilityfunc>
+
+const addUtility:newUtility=addUtilityfunc("Java.Sql","JavaSqlConnector.jar")
+console.log(addUtility)
+
+//Parameters Type
+type utilityParams=Parameters<typeof addUtilityfunc>
+const utilityArgs:utilityParams=["Java maths","JavaMaths22.jar"]
+const addUtility2:newUtility=addUtilityfunc(...utilityArgs)
+console.log(addUtility2)
+
+//Awaited
+//helps us with return type of a promise
+
+
