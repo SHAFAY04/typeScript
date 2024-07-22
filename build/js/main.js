@@ -1,4 +1,13 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 let username = 'shafay';
 console.log(username);
 let a = 12;
@@ -287,7 +296,7 @@ let logStudentKeys = (ahmed, key) => {
 };
 logStudentKeys(ahmed, 'name');
 let lazyriver = {
-    //anything is an unknown type as streams
+    //anything is an unknown type to streams
     //doesnt include anything key
     anything: 15,
     height: 15,
@@ -443,3 +452,188 @@ const addUtility2 = addUtilityfunc(...utilityArgs);
 console.log(addUtility2);
 //Awaited
 //helps us with return type of a promise
+//ARROW FUNCTIONS VS NORMAL FUNCTIONS
+// arrow func does not have "this" context
+let obj1 = {
+    value: 45,
+    arrfunc: () => {
+        console.log(this.value);
+    }
+};
+obj1.arrfunc(); //you get undefined
+//arrow functions doesn't have arguments object!
+const arrfunc = () => {
+    console.log(arguments);
+};
+//normal functions have "this" context
+let obj2 = {
+    value: 2004,
+    normalFunc: function () {
+        console.log(this.value);
+    }
+};
+obj2.normalFunc(); //we get our value
+//normal functions have their arguments object!
+const normalfunc = function () {
+    console.log(arguments);
+};
+normalfunc(1, 3, 4);
+//Destructuring objects
+let todo = {
+    id: 1,
+    title: 'take out trash',
+    user: {
+        namee: 'shafay',
+    },
+};
+//we destrutured props as well as renamed id!
+let { id: todoid, title, user: { namee } } = todo;
+console.log(todoid, title, namee);
+//Destructuring arrays
+let arrayDestruc = [230, 2521, 325, 636];
+const [first, second, ...rest] = arrayDestruc;
+console.log(first, rest);
+//JSON
+const post = {
+    id: 1,
+    title: 'blog post one',
+    body: 'Post says nvidia rtx 4090 best'
+};
+const posts = [
+    {
+        id: 1,
+        title: 'blog post one',
+        body: 'Post says nvidia rtx 4090 best'
+    },
+    {
+        id: 2,
+        title: 'blog post two',
+        body: 'Post says Windows had blue screens today'
+    }
+];
+//this is what you'll be sending to the server
+const str = JSON.stringify(posts);
+console.log(str);
+//parsing JSON
+const parse = JSON.parse(str);
+console.log(parse);
+//Array.filter
+let retailCompanies = [];
+const companies = [
+    { name: 'Company One', category: 'Finance', start: 1981, end: 2004 },
+    { name: 'Company Two', category: 'Retail', start: 1992, end: 2008 },
+    { name: 'Company Three', category: 'Auto', start: 1999, end: 2007 },
+    { name: 'Company Four', category: 'Retail', start: 1989, end: 2010 },
+    { name: 'Company Five', category: 'Technology', start: 2009, end: 2014 },
+    { name: 'Company Six', category: 'Finance', start: 1987, end: 2010 },
+    { name: 'Company Seven', category: 'Auto', start: 1986, end: 1996 },
+    { name: 'Company Eight', category: 'Technology', start: 2011, end: 2016 },
+    { name: 'Company Nine', category: 'Retail', start: 1981, end: 1989 },
+];
+retailCompanies = companies.filter(company => company.category === 'Retail');
+console.log(retailCompanies);
+//ASYNC JAVASCRIPT
+//when you dont want your web to wait for a task
+// to complete so that the other can begin
+//for example while fetching data from the server
+//it can take some seconds so you use
+//async programming like callbacks(old),promises,
+// and async await 
+//we use async await nowadays which still deals
+//with promises but in better way
+let postsUL = (document.getElementById('posts'));
+let getposts = () => {
+    postsUL.style.borderWidth = '5px';
+    postsUL.style.borderStyle = 'solid';
+    postsUL.style.borderColor = 'red';
+    postsUL.style.backgroundColor = 'white';
+    postsUL.style.padding = '25px';
+    setTimeout(() => {
+        posts.forEach(post => {
+            let postLI = document.createElement('li');
+            postLI.innerText = `${post.title}`;
+            postLI.style.color = 'BLACK';
+            postsUL.appendChild(postLI);
+        });
+    }, 1000);
+};
+//creating a post that takes 2 seconds to create
+//now note that getting posts takes 1 second
+//and we dont get the third post in dom if we 
+//call getposts() since it takes 2 seconds to
+// create a post while
+//getting the posts from the posts array takes
+//only 1 second and the third post gets added
+// 1 second after the pre existing posts are
+//printed on dom as you can see below now this 
+//is the problemwhere async programming comes in to help
+let createPost = (post) => {
+    setTimeout(() => {
+        posts.push(post);
+    }, 2000);
+};
+//   createPost({
+//     id:3,
+//     title:'post three',
+//     body:'This seems interesting!'})
+//so first we'll use callbacks to handle this
+//we will leave the createPost function above
+//as an example of the synchronous code which
+//has our problem and we will create an async
+//createPostsWithCallbacks method below  
+let createPostsWithCallbacks = (post, callback) => {
+    setTimeout(() => {
+        posts.push(post);
+        callback();
+    }, 2000);
+};
+//   createPostsWithCallbacks({
+//     id:4,
+//     title:'blog post four',
+//     body:'we are using callbacks!'},getposts)
+//now we're gonna use PROMISES
+const createPostsWithPromises = (post) => {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            posts.push(post);
+            let error = false;
+            if (!error) {
+                resolve();
+            }
+            else {
+                reject('Something went wrong!');
+            }
+        }, 2000);
+    });
+};
+// createPostsWithPromises({
+//     id: 5,
+//     title: 'blog post FIVE PROMISES',
+//     body: 'we are using promises!'
+// })
+// .then(getposts)
+// .catch(err=>console.log(err))
+//ASYNC AND AWAIT
+//Remember it works with promises so that you
+//dont have to do stuff like .then
+//it is more elegant way to handle promises
+function createPostsWithAsync() {
+    return __awaiter(this, void 0, void 0, function* () {
+        yield createPostsWithPromises({
+            id: 5,
+            title: 'blog post FIVE PROMISES',
+            body: 'we are using promises!'
+        });
+        getposts();
+    });
+}
+createPostsWithAsync();
+//async await with FETCH
+let getusers = function () {
+    return __awaiter(this, void 0, void 0, function* () {
+        const res = yield fetch('https://jsonplaceholder.typicode.com/users');
+        const data = yield res.json();
+        console.log(data);
+    });
+};
+getusers();
