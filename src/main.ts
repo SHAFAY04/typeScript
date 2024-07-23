@@ -883,3 +883,16 @@ let getusers= async function( ){
    console.log(data)
 }
 getusers()
+
+//to get values from forms input fields
+//we use HTMLInputElement rather than
+//HTMLElement since some HTMLElements
+//like a div do not have a value
+let addpostsform=document.getElementById('addposts')as HTMLElement
+addpostsform.addEventListener('submit',onformsubmit)
+
+function onformsubmit(e:Event){
+    e.preventDefault()
+    let title=(document.getElementById('title')as HTMLInputElement).value
+    
+}
