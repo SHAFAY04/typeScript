@@ -2,7 +2,8 @@ let username = 'shafay'
 console.log(username);
 let a: number = 12
 let b: string = '6'
-//console.log(a/b)
+//you cant multiply a string by a number
+console.log(a*b)
 let Name: string;
 let num: number;
 let decision: boolean;
@@ -10,7 +11,8 @@ let date: any
 let isActive: string | boolean
 Name = 'shafayyyyyy'
 num = 48
-decision = true;
+//a boolean cant be a number
+decision = 9;
 date = '15 july'
 isActive = true
 
@@ -23,8 +25,13 @@ console.log(sum(5, 'coder'))
 let fruits = ['apple', 'mango']
 let user = ['shafay', 5960]
 let mixed = [45, 'shafay', true]
-user[0] = false//will work but tells you an error because ofcourse typescript
-fruits.push(45)//will work but tells you an error because ofcourse typescript
+//will work because javascript but ts tells you 
+//that you cant assign a boolean to an index of
+//an array of string and number
+user[0] = false
+//will work because javascript but ts tells you 
+//that you cant push a number to an array of strings
+fruits.push(45)
 fruits.unshift(true)//will work but tells you an error because ofcourse typescript
 user = mixed//will work but tells you an error because ofcourse typescript
 user.forEach(element => {
@@ -32,6 +39,7 @@ user.forEach(element => {
 });
 let test: string[] = []
 test.push('Dave')
+//cant push number in an array of strings
 test.push(26)
 let mytuple: [string, number] = ['David', 69]
 mytuple[2] = 78
@@ -82,6 +90,7 @@ anotherCar(goodCar)
 
 //interface instead of type
 //the ? checks if there is value or not
+//basically ? makes a property optional
 interface food {
     name: string,
     origin?: string
@@ -148,10 +157,12 @@ let abc = function (a: number, ...numbers: number[]): number {
 console.log(abc(1, 2, 3))
 
 //never return type
+//since the following loop is an endless loop
 let loop = () => {
     let i: number = 1
     while (true) {
         i++
+        //BUT
         //if i uncomment the following code the return type will turn void!
         // if (i>=100) {
         //     break
@@ -185,14 +196,19 @@ let addOrConcat = (num1: number, num2: number, method: 'add' | 'concat'): string
 
     return method === 'add' ? num1 + num2 : '' + num1 + num2
 }
-//we're basically telling the ts that we know its gonna be a string
+//here by using type assertions,
+//we're basically telling the ts that we know its
+//gonna be a string
 let myval: string = addOrConcat(5, 4, 'concat') as string
 console.log(myval)
 //be aware of your assertions you can make mistakes too just like the following code
 let nextval: number = addOrConcat(5, 4, 'concat') as number
+//here even tho i told typescript its gonna be
+//a number we get an string 
 console.log(typeof nextval)
 
 //unknown type
+//used for illegal stuff like the following
 10 as string
 (10 as unknown) as string
 
@@ -379,10 +395,11 @@ logStudentKeys(ahmed, 'name')
 
 type poools = {
     //look we cant use a string literal directly!
-    [key: 'height']: string
+    [index: 'height']: string
 }
 type Streams = 'height' | 'color' | 'deaths'
 
+//RECORD TYPE HAS
 //advantage as compared to the poools type
 //we can use string types likes this
 //drawback that we cant fix a type for a single 
@@ -627,6 +644,21 @@ console.log(addUtility2)
 //Awaited
 //helps us with return type of a promise
 
+let getuserswithAwaited= async function( ){
+
+    const data= await fetch('https://jsonplaceholder.typicode.com/users')
+     .then(res=>res.json())
+     .catch((error)=>{
+         if(error instanceof Error){
+             console.log(error.message)
+         }
+     })
+     return data
+ }
+ type getUsersReturnType= Awaited<ReturnType<typeof getusers>>
+ getuserswithAwaited().then(users=>{
+     console.log(users)
+ })
 
 //ARROW FUNCTIONS VS NORMAL FUNCTIONS
 

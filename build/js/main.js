@@ -12,7 +12,8 @@ let username = 'shafay';
 console.log(username);
 let a = 12;
 let b = '6';
-//console.log(a/b)
+//you cant multiply a string by a number
+console.log(a * b);
 let Name;
 let num;
 let decision;
@@ -20,7 +21,8 @@ let date;
 let isActive;
 Name = 'shafayyyyyy';
 num = 48;
-decision = true;
+//a boolean cant be a number
+decision = 9;
 date = '15 july';
 isActive = true;
 //method
@@ -31,8 +33,13 @@ console.log(sum(5, 'coder'));
 let fruits = ['apple', 'mango'];
 let user = ['shafay', 5960];
 let mixed = [45, 'shafay', true];
-user[0] = false; //will work but tells you an error because ofcourse typescript
-fruits.push(45); //will work but tells you an error because ofcourse typescript
+//will work because javascript but ts tells you 
+//that you cant assign a boolean to an index of
+//an array of string and number
+user[0] = false;
+//will work because javascript but ts tells you 
+//that you cant push a number to an array of strings
+fruits.push(45);
 fruits.unshift(true); //will work but tells you an error because ofcourse typescript
 user = mixed; //will work but tells you an error because ofcourse typescript
 user.forEach(element => {
@@ -40,6 +47,7 @@ user.forEach(element => {
 });
 let test = [];
 test.push('Dave');
+//cant push number in an array of strings
 test.push(26);
 let mytuple = ['David', 69];
 mytuple[2] = 78;
@@ -122,10 +130,12 @@ let abc = function (a, ...numbers) {
 };
 console.log(abc(1, 2, 3));
 //never return type
+//since the following loop is an endless loop
 let loop = () => {
     let i = 1;
     while (true) {
         i++;
+        //BUT
         //if i uncomment the following code the return type will turn void!
         // if (i>=100) {
         //     break
@@ -154,13 +164,18 @@ console.log(numberOrString(4));
 let addOrConcat = (num1, num2, method) => {
     return method === 'add' ? num1 + num2 : '' + num1 + num2;
 };
-//we're basically telling the ts that we know its gonna be a string
+//here by using type assertions,
+//we're basically telling the ts that we know its
+//gonna be a string
 let myval = addOrConcat(5, 4, 'concat');
 console.log(myval);
 //be aware of your assertions you can make mistakes too just like the following code
 let nextval = addOrConcat(5, 4, 'concat');
+//here even tho i told typescript its gonna be
+//a number we get an string 
 console.log(typeof nextval);
 //unknown type
+//used for illegal stuff like the following
 10;
 10;
 class person {
@@ -452,6 +467,21 @@ const addUtility2 = addUtilityfunc(...utilityArgs);
 console.log(addUtility2);
 //Awaited
 //helps us with return type of a promise
+let getuserswithAwaited = function () {
+    return __awaiter(this, void 0, void 0, function* () {
+        const data = yield fetch('https://jsonplaceholder.typicode.com/users')
+            .then(res => res.json())
+            .catch((error) => {
+            if (error instanceof Error) {
+                console.log(error.message);
+            }
+        });
+        return data;
+    });
+};
+getuserswithAwaited().then(users => {
+    console.log(users);
+});
 //ARROW FUNCTIONS VS NORMAL FUNCTIONS
 // arrow func does not have "this" context
 let obj1 = {
