@@ -207,6 +207,12 @@ let nextval: number = addOrConcat(5, 4, 'concat') as number
 //a number we get an string 
 console.log(typeof nextval)
 
+//MOST IMPORTANT POINT
+//The ! operator is used to assert that the 
+//result is not null, effectively telling TScript
+// "I know this will not be null, trust me".
+let coprightText= document.getElementById('copy')!
+
 //unknown type
 //used for illegal stuff like the following
 10 as string
